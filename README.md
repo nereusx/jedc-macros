@@ -5,7 +5,7 @@ CBrief compatibility for Jed (see patched version nereusx/jedc)
 ## Require
 packages libslang/slang slsh gettext
 
-## Environment variables
+## Environment
 
 Backups directory
 ```
