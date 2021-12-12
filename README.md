@@ -7,14 +7,23 @@ packages libslang/slang slsh gettext
 
 ## Environment variables
 
-Add this line to your profile
+Backups directory
 ```
-export JED_HOME=~/.jed
+mkdir -p ~/.backup/text
 ```
 
-for [t]csh users, add this line to your ~/.tcshrc
+Add the lines to your profile
 ```
+export BACKUPDIR=~/.backup/text
+export JED_HOME=~/.jed
+alias b=jed
+```
+
+[t]csh users
+```
+setenv BACKUPDIR ~/.backup/text
 setenv JED_HOME ~/.jed
+alias b jed
 ```
 
 ## Install macros
