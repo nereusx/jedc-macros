@@ -45,6 +45,10 @@ make install
 
 ## Differences
 
+*Jed* has not the same abilities with BRIEF's windows system.
+It is only creates vertically windows. Anyway, the macros uses
+*BRIEF* keys with similar way.
+
 **Additional** to the original BRIEF keys:
 ```
 Alt+F               Search forward
