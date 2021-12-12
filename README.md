@@ -49,7 +49,6 @@ make install
 ```
 Alt+F               Search forward
 Ctrl+F              Search backward
-Ctrl+A / Ctrl+E     Home / End as in Emacs and in command-line
 Ctrl+C              Copy
 Ctrl+V              Paste
 Ctrl+X              Cut
@@ -85,6 +84,12 @@ X11 clipboard:
 Alt+Ctrl+C = Copy
 Alt+Ctrl+V = Paste
 Alt+Ctrl+X = Cut
+```
+
+Emacs/Readline compatibility (default on)
+```
+Ctrl+A = Home
+Ctrl+E = End
 ```
 
 Laptop mode (default off)
