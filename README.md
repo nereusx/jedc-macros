@@ -3,7 +3,7 @@
 CBrief compatibility for Jed (see patched version nereusx/jedc)
 
 ## Require
-packages libslang/slang slsh gettext
+packages libslang/slang slsh gettext xclip
 
 ## Environment
 
@@ -43,4 +43,19 @@ make
 make install
 ```
 
+## Differences
 
+**Additional** to the original keys:
+```
+Alt+F  = Search forward
+Ctrl+F = Search backward
+Ctrl+A / Ctrl+E = Home / End as in Emacs and in command-line
+```
+
+Laptop mode (default on)
+```
+Ctrl+Up    = PageUp
+Ctrl+Down  = PageDown
+Ctrl+Left  = Home
+Ctrl+Right = End
+```
