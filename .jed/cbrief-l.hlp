@@ -1,0 +1,830 @@
+%cols=30;
+> This Emulation Based on BRIEF V3.1, 1991
+> and secondary on BRIEF v2.1, 1988
+
+--- Basic keys ---------------------------------------------------------
+
+[^Q]                          Halt/ESC
+[\e\e\e]                      Escape. ESC somehow to abort
+[BS]                          Backspace
+[Enter]                       Enter
+[Ctrl+Enter]                  Open Line
+[Tab]                         Inserts Tab or indents a block
+[Shift+Tab]                   Back Tab or outdents a block
+
+--- Alt Keys -----------------------------------------------------------
+
+[Alt+BS]                      Delete next word
+
+[Alt+0..9]                    Drop Bookmark 1-10
+
+[Alt+A]                       Non-inclusive Mark
+[Alt+B]                       Buffer List (buffer managment list)
+[Alt+C]                       Column Selection Mark
+[Alt+D]                       Delete Line
+[Alt+E]                       Edit File (open file)
+[Alt+F]                       Search again (display filename in BRIEF)
+[Alt+G]                       Go To Line
+[Alt+H]                       Help
+[Alt+I]                       Insert Mode Toggle 
+[Alt+J]                       Jump to Bookmark
+[Alt+K]                       Delete to EOL (Ctrl+K delete to BOL)
+[Alt+L]                       Line Selection Mark
+[Alt+M]                       Normal Selection Mark
+[Alt+N]                       Next Buffer (Alt+P = prev)
+[Alt+O]                       Change Output File (Save As)
+                              Renames the file in memory but not save.
+[Alt+P]                       Previous Buffer (Print in BRIEF)
+[Alt+Q]                       Quote (Insert Keycode)
+[Alt+R]                       Read File into Buffer
+[Alt+S]                       Search Forward (Ctrl+S search bwd)
+[Alt+T]                       Translate (replace) Forward
+[Alt+U]                       Undo
+[Alt+V]                       Display Version ID
+[Alt+W]                       Write buffer or block to disk (Save)
+[Alt+X]                       Exit (and ask to save or not)
+[Alt+Z]                       Jump to Shell
+
+`                             BRIEF runs command.com, returns with exit.
+`                             Jed console, suspend, returns with fg.
+`                             XJed runs a terminal emulator.
+
+[Alt+-]                       Previous Buffer (BRIEF key)
+
+--- Control Keys -------------------------------------------------------
+
+[Ctrl+BS]                     Delete Previous Word
+[Ctrl+A], [F12]               JED Menu
+[Ctrl+B]                      Line to Bottom
+[Ctrl+C]                      Copy (no BRIEF key)
+[Alt+Ctrl+C], [Keypad-5]      Center Line in Window, Windows Copy
+[Ctrl+D]                      Scroll Buffer Down
+[Ctrl+E]                      Scroll Buffer Up
+[Ctrl+F]                      Search again backward
+[Ctrl+G]                      Go To Routines (popup list and select)
+[Ctrl+H]                      JED's Help (help_prefix)
+[Ctrl+K]                      Delete to beginning of line
+[Ctrl+L]                      Redraw, not a BRIEF key, but Unix one
+[Ctrl+N]                      Next Error
+[Ctrl+P]                      Pop Up Error Window
+[Ctrl+R]                      Repeat (example: ^R72-)
+[Ctrl+S]                      Search backward (no BRIEF key)
+[Ctrl+T]                      Line to Top
+[Ctrl+U]                      Redo
+[Ctrl+V]                      Paste (no BRIEF key)
+[Ctrl+W]                      Backup File Toggle
+[Ctrl+X]                      Cut (no BRIEF key)
+[Ctrl+Z]                      Zoom Window
+[Ctrl+-]                      Delete Current Buffer
+
+--- Arrows and special keys --------------------------------------------
+
+[Insert], [Keypad-0]          Paste from Scrap
+[Delete], [Keypad-.]          Delete block or next character
+[Home], [Keypad-7]            Beginning of Line
+[Home] [Home]                 Top of Window
+[Home] [Home] [Home]          Top of Buffer
+[End], [Keypad-1]             End of line
+[End] [End]                   End of Window
+[End] [End] [End]             End of Buffer
+[PgUp], [Keypad-9]            Page up
+[PgDn], [Keypad-3]            Page Down
+[Shift+Home]                  Left side of Window
+[Shift+End]                   Right side of Window
+[Ctrl+PgUp]                   Top of Buffer
+[Ctrl+PgDn]                   End of Buffer
+[Ctrl+Home]                   Top of Window
+[Ctrl+End]                    End of Window
+
+--- Keypad (Numeric Pad) -----------------------------------------------
+
+[Keypad-Plus]                 Copy
+[Keypad-Minus]                Cut to Scrap
+[Keypad-Multiply]             Undo
+[Keypad-Enter]                Enter
+[Keypad-Ins]                  Paste
+[Keypad-Del]                  Delete block or next character
+
+--- Arrows and Keypad-arrows -------------------------------------------
+
+[Left]/[Right]                Left/Right
+[Up]/[Down]                   Up/Down
+[Ctrl+Left]                   Previous Word
+[Ctrl+Right]                  Next Word
+
+--- Function keys ------------------------------------------------------
+
+[F1]                          Change Window
+[F2]                          Resize Window
+[Alt+F2]                      Zoom Window
+[F3]                          Create Window
+[F4]                          Delete Window
+	
+[F5]                          Search Forward
+[Alt+F5]                      Search Backward
+[Shift+F5]                    Search Again
+[Ctrl+F5]                     Case Sensitive Toggle
+	
+[F6]                          Tanslate (replace)  Forward
+[Alt+F6]                      Translate Backward
+[Shift+F6]                    Translate Again
+[Ctrl+F6]                     Regular Expr. Toggle
+
+[F7]                          Remember (record macro)
+[F8]                          Playback (execute macro)
+
+[Shift+F8]                    JED's Macro Query. 
+
+`                             If not in the mini buffer and if during
+`                             keyboard macro, allow user to enter
+`                             different text each time macro is executed
+
+[F10]                         CBRIEF's Command line
+
+`                             Executes CBRIEF's macro or: 
+`                             if begins with '?', prints the result.
+`                             if begins with '$', runs SLang code.
+`                             if begins with '!', runs shell command
+`							      and returns the output in new buf.
+`                             if begins with '<', runs shell command
+`							      and insert the output in cur buf.
+`                             if begins with '>', writes the selected
+`							      block or the whole buffer to file.
+`                             if begins with ">>", appends the selected
+`							      block or the whole buffer to file.
+`                             if begins with '|', pipes the selected
+`							      block or the whole buffer to file.
+`                             if begins with '&', execute in background
+`							      and in new terminal on XJed.
+                              
+[Alt+F10]                     Compile Buffer
+[Ctrl+F10]                    Make (non-brief)
+
+[Ctrl+F9]                     Borland's compile key
+[F9]                          Make (Borland's build and run)
+[F11]                         JED's Dired
+[F12]                         JED's menu
+
+--- X Windows / Windows Clipboard (XJed Only) --------------------------
+
+[Ctrl+Insert]                 Copy selection to Clipboard
+[Shift+Insert]                Paste from Clipboard
+
+--- Ctrl+Alt Keys (non-BRIEF) ------------------------------------------
+
+#[Alt+Ctrl+C]                  Center on window
+[Alt+Ctrl+R]                  Toggle regexp search
+[Alt+Ctrl+S]                  Search backward
+[Alt+Ctrl+A]                  Case Sensitive Toggle
+[Alt+Ctrl+F]                  Search again backward
+[Alt+Ctrl+T]                  Translate backward
+
+[Alt+Ctrl+C]                  Copy to X Clipboard
+[Alt+Ctrl+V]                  Paste from X Clipboard
+[Alt+Ctrl+X]                  Cut to X Clipboard
+
+--- Extra Non-BRIEF Keys -----------------------------------------------
+
+[Alt+\]]                      Matching delimiters
+[Alt+/]                       Completion
+[Alt+!]                       Run shell command and capture its
+                              output in new buffer
+[Alt+Shift+X]                 Exchange mark/point
+
+[Alt+,]                       Uncomment
+[Alt+.]                       Comment
+
+=== Regular Expressions ================================================
+
+` You may perform search and replace operations with regular expression
+` (RE) support. The S-Lang library supports the following standard REs:
+
+.                 match any character except newline
+*                 matches zero or more occurences of previous RE
++                 matches one or more occurences of previous RE
+?                 matches zero or one occurence of previous RE
+^                 matches beginning of a line
+$                 matches end of line
+[ ... ]           matches any single character between brackets.
+                  For example, [-02468] matches `-' or any even digit.
+                  and [-0-9a-z] matches `-' and any digit between 0 and 9
+                  as well as letters a through z.
+\<                Match the beginning of a word.
+\>                Match the end of a word.
+\( ... \)
+\1, \2, ..., \9   Matches the match specified by nth \( ... \)
+                  expression.
+
+In addition, the following extensions are also supported:
+
+\c                turn on case-sensitivity (default)
+\C                turn off case-sensitivity
+\d                match any digit
+\e                match ESC char
+
+` For example, to replace "some text" with 'some text'
+` (notice: from double quotes to simple quotes), you will search for
+` "\([a-zA-Z]*\)" and replace it with '\1'.
+
+` RE matching does not work across multiple lines.
+` Moreover, Jed's REs differ from egrep's in the following aspects:
+` the OR operator | is not supported;
+` grouping operators \( and \) are not used to group REs to form a single RE.
+` Thus, an expression such as \(hello\)* is not a
+` pattern to match zero or more occurances of hello as it is in e.g., egrep.
+
+S-Lang files: regexp.sl 
+
+=== COMMAND LINE =======================================================
+From Command Line (F10) you can run any macro but also any application.
+It is a powerfull tool.
+
+If the line does not start with a special character it just runs CBRIEF
+macros.
+
+Sepcial Characters at the begin of line:
+
+$	then executes in the shell the following commands with eval(); this
+	means slang code.
+	
+?	it prints whatever it follows. (slang)
+	Example: '? 60*sin(0.8), buffer_filename()'
+
+!	executes the rest commands with the shell and insert the output
+	to a new buffer.
+
+&	executes the rest commands with the shell in the background and
+	in new terminal.
+
+<	executes the rest commands with the shell and inserts the output
+	in the current buffer
+
+>	writes the selected text to a new file.
+
+>>	appends the selected text to a file.
+
+|	(pipe) sends the selected text as standard input to the command
+	that follows.
+
+=== MACROS =============================================================
+
+reset
+`	Reassigns all keycodes in current keymap.
+`	(non-brief)
+
+% bgd_compilation
+%	Toggles whether or not all compilations should be performed
+%   in the background.
+%
+backspace
+`	Backspaces and erases the character preceding the cursor.
+
+back_tab
+`	Moves the cursor to the previous tab stop without erasing tabs
+`   or characters.
+
+set_backup
+`	Turns automatic backup on or off from inside BRIEF.
+
+beginning_of_line
+`	Places the cursor at column 1 of the current line.
+
+block_search
+`	Toggles whether or not Search forward, Search back, and Search
+`   again are restricted to blocks.
+
+% Borders
+%`	Toggles whether or not window borders are displayed.
+%
+buf_list
+`	Displays the buffer list.
+
+search_case
+`	Toggles upper and lower case sensitivity.
+
+center
+`	Centers the text on a line between the first column and the
+`   right margin.
+
+center_line
+`	Moves the current line, if possible, to the center (middle line)
+`   of the current window. This only affects the display.
+
+cd
+`	Changes the current working directory.
+
+output_file
+`	Changes the output file name for the current buffer. You cannot
+`   enter an existing file name. (Warning: Does not saves the file,
+`   you have to press [Alt+W])
+
+change_window
+`	Initiates a switch from one window to another.
+	
+color
+`	Resets the colors used for the background, foreground, titles,
+`	and messages.
+
+compile_it
+`	Compiles the file in the current buffer (and loads it if it's
+`	a BRIEF macro file).
+
+copy
+`	Copies the block of marked characters (selected by pressing A/t+M,
+`	A/t+G, A/t+A, or A/t+L and highlighting the block with arrow keys
+`	or commands) to the scrap, replacing the contents of the scrap
+`	buffer and unmarking the block.
+
+% assign_to_key
+%	Adds a temporary key assignment to the current keyboard.
+%
+create_edge
+`	Splits the current window in half either horizontally or vertically,
+`	providing two views of the current buffer.
+
+cut
+`	Copies the block of marked characters to the scrap, then deletes it,
+`	replacing the previous contents of the scrap and unmarking the block.
+
+delete_char
+`	Deletes the character at the cursor or, if a block is marked, deletes
+`	(and unmarks) the marked block.
+
+delete_curr_buffer
+`	Deletes the current buffer and makes the next buffer in the buffer
+`	list the current buffer.
+
+del
+`	Deletes a file from disk.
+
+delete_line
+`	Deletes the entire current line, regardless of the column position
+`	of the cursor.
+
+% delete_macro
+%	Deletes the specified compiled macro file from memory.
+%
+delete_next_word
+`	Deletes from the cursor position to the start of the next word.
+
+delete_previous_word
+delete_prev_word
+`	Deletes from the cursor position to the beginning of the previous
+`	word.
+
+delete_to_bol
+`	Deletes all characters before the cursor to the beginning of the
+`	line. If the cursor is beyond the end of the line, the entire line
+`	is deleted, including the newline character.
+
+delete_to_eol
+`	Deletes all characters from the current position to the end
+`	of the line.
+
+delete_edge 
+`	Allows you to delete a window by deleting the window's edge.
+`   (param. the edge, 1..4 i think)
+
+display_file_name
+`	Displays the name of the file associated with the current buffer
+`	on the status line.
+
+version
+`	Displays BRIEF's version number and copyright notice on the
+`	status line.
+
+down
+`	Moves the cursor down one line, retaining the column position.
+
+drop_bookmark
+`	Drops a numbered bookmark at the current position.
+
+edit_file
+`	Displays the specified file in the current window.
+
+end_of_buffer
+`	Moves the cursor to the last character in the buffer, which is
+`	always a newline character.
+
+end_of_line
+`	Places the cursor at the last valid character of the current line.
+
+end_of_window
+`	Places the cursor at the last valid character of the current line.
+
+enter
+`	Depending on the mode being used (insert or overstrike), either
+`	inserts a newline character at the current position, placing all
+`	following characters onto a newly created next line, or moves the
+`	cursor to the first column of the next line.
+
+escape
+`	Lets you cancel a command from any prompt.
+
+execute_macro
+`	Executes the specified command. This command is used to execute
+`	any command without a key assignment, such as the Color command.
+
+exit
+`	Exits from BRIEF to OS asking to write the modified buffers.
+`	Note: exit (gets args, "w" = save all before)
+
+quit
+`	Exits from BRIEF to OS without write the  buffers.
+
+goto_line
+`	Moves the cursor to the specified line number.
+
+routines
+`	Displays a window that lists the routines present in the current
+`	file (if any).
+
+halt
+`	Terminates the following commands: 'Search forward',
+`	'Search backward', 'Translate', 'Playback', 'Execute command'.
+`	(partially)
+	
+help
+`	Shows an information window with basic key-shortcuts.
+	
+long_help
+`	Displays the full help file in a new buffer.
+
+% help
+%	Either displays a general help menu or, if a command prompt is in
+%	the message window, displays a pop-up window of information
+%	pertaining to the command.
+%
+i_search
+`	Searches for the specified search pattern incrementally, that is,
+`	as you type it.
+
+slide_in
+`	When indenting is on and a block is marked, the Tab key indents all
+`	the lines in the block to the next tab stop.
+
+insert_mode
+`	Switches between insert mode and overstrike mode. Backspace, Enter,
+`	and Tab behave differently in insert mode than in overstrike mode.
+
+goto_bookmark
+`	Moves the cursor to the specified bookmark number.
+
+left
+`	Moves the cursor one column to the left, remaining on the same line.
+`	When the cursor is moved into virtual space, it changes shape.
+
+left_side
+`	Moves the cursor to the left side of the window.
+
+to_bottom
+`	Scrolls the buffer, moving the current line, if possible, to the
+`	bottom of the window.
+	
+to_top
+`	Scrolls the buffer, moving the current line to the top of the
+`	current window.
+
+load_keystroke_macro
+`	Loads a keystroke macro into memory, if the specified file can be
+`	found on the disk.
+
+load_macro
+`	Loads a compiled macro file into memory, if the specified file can
+`	be found on the disk.
+
+tolower
+`	Converts the characters in a marked block or the current line to
+`	lowercase.
+	
+margin
+`	Resets the right margin for word wrap, centering, and paragraph
+`	reformatting. The preset margin is at the seventieth character.
+	
+mark
+` 	'mark' or 'mark 0' remove mark.
+` 	'mark 1' standard mark.
+` 	'mark 2' Starts marking a rectangular block.
+`	'mark 3' Starts marking a line at a time.
+`	'mark 4' Equivalent to Mark 1, except that the marked area does not
+`			include the character at the end of the block.
+
+`	Marks a block in a buffer with no marked blocks. When a block of
+`	text is marked, several BRIEF commands can act on the entire block:
+`	Cut to scrap, Copy to scrap, Delete, Indent block (in files with
+`	programming support), Lower case block Outdent block (in files with
+`	programming support), Print Search forward, Search backward, and
+`	Search again (optionally; see the Block search toggle command)
+`	Translate forward, Translate back, and Translate again Uppercase
+`	block, Write.
+	
+`	When the Cut to scrap, Copy to scrap, Delete, Print, or Write
+`	commands are executed on a block, the block becomes unmarked.
+
+edit_next_buffer
+`	Moves the next buffer in the buffer list, if one exists, into the
+`	current window, making it the current buffer. The last remembered
+`	position becomes the current position.
+
+next_char
+`	Moves the cursor to the next character in the buffer (if not at
+`	the end of the buffer), treating tabs as single characters and
+`	wrapping around line boundaries.
+
+next_error
+`	Locates the next error in the current file, if an error exists.
+
+next_word
+`	Moves the cursor to the first character of the next word.
+
+open_line
+`	Inserts a blank line after the current line and places the cursor
+`	on the first column of this new line. If the cursor is in the
+`	middle of an existing line, the line is not split.
+
+slide_out
+`	When indenting is on and a block is marked, the Tab key outdents
+`	all the lines in the block to the next tab stop.
+
+page_down
+`	Moves the cursor down one page of text, where a page equals the
+`	length of the current window.
+
+page_up
+`	Moves the cursor up one page of text, where a page equals the
+`	length of the current window.
+
+paste
+`	Inserts (pastes) the current scrap buffer into the current buffer
+`	immediately before the current position, taking the type of the
+`	copied or cut block into account.
+
+pause
+`	Tells BRIEF to temporarily stop recording the current keystroke
+`	sequence.
+
+% pause_an_error
+%	Tells BRIEF to pause when displaying run-time error messages.
+%	Otherwise, the messages flash by at a rapid rate.
+%
+playback
+`	Plays back the last keystroke sequence recorded with the Remember
+`	command.
+
+% next_error 1
+%	Displays a window of error messages and allows you to examine any
+%	message or go to the line where an error occurred. This command
+%	should be used after the current file has been compiled.
+%
+menu
+`	Opens JED's menu bar.
+`	(non-brief)
+
+% popup_menu
+%	Displays a pop-up menu. If called using the mouse, the pop-up menu
+%	is displayed centered under the mouse cursor. Otherwise, it is
+%	displayed in the middle of the screen. The menu is in the file
+%	'\brief\help\popup.mnu', and can be modified to add additional
+%	features.
+%
+edit_prev_buffer
+`	Displays the previous buffer in the buffer list in the current
+`	window.
+	
+prev_char
+`	Moves the cursor to the previous character in the buffer (if not at
+`	the top of the buffer), treating tabs as single characters and
+`	wrapping around line boundaries.
+
+previous_word
+prev_word
+`	Moves the cursor to the first character of the previous word.
+
+change_window
+`	Quickly changes windows when you choose the arrow key that points
+`	to the window you want.
+
+quote
+`	Causes the next keystroke to be interpreted literally, that is,
+`	not as a command.
+
+read_file
+`	Reads a copy of the specified file into the current buffer,
+`	inserting it immediately before the current position.
+
+redo
+`	Reverses the effect of commands that have been undone.
+`	New edits to the buffer cause the undo information for commands
+`	that were not redone to be purged.
+
+reform
+`	Reformats a paragraph, adjusting it to the current right margin.
+	
+toggle_re
+`	Toggles whether or not regular expressions are recognized
+`	in patterns.
+	
+remember
+`	Causes BRIEF to remember a sequence of keystrokes.
+
+% repeat (^R)
+%	Repeats a command a specified number of times.
+%
+move_edge
+`	Changes the dimension of a window by moving the window's edge.
+
+right
+`	Moves the cursor one column to the right, remaining on the same
+`	line. If the cursor is moved into virtual space, the cursor changes
+`	shape.
+
+right_side
+`	Moves the cursor to the right side of the window, regardless of the
+`	length of the line.
+
+save_keystroke_macro
+`	Save the current keystroke macro in the specified file. If no
+`	extension is specified, .km is assumed.
+
+screen_down
+`	Moves the buffer, if possible, down one line in the window, keeping
+`	the cursor on the same text line.
+
+screen_up
+`	Moves the buffer, if possible, up one line in the window, keeping
+`	the cursor on the same text line.
+
+search_again
+`	Searches either forward or backward for the last given pattern,
+`	depending on the direction of the previous search.
+
+search_back
+`	Searches backward from the current position to the beginning of the
+`	current buffer for the given pattern.
+
+search_fwd
+`	Searches forward from the current position to the end of the
+`	current buffer for the given pattern.
+
+dos
+`	Gets parameter the command-line and pauses at exit,
+`	or just runs the shell.
+`	Exits temporarily to the operating system.
+
+swap_anchor
+`	Exchanges the current cursor position with the mark.
+
+tabs
+`	Sets the tab stops for the current buffer.
+
+top_of_buffer
+`	Moves the cursor to the first character of the buffer.
+
+top_of_window
+`	[Ctrl+Home] moves the cursor to the top line of the current window,
+`	retaining the column position. [Home] [Home] moves the cursor to
+`   the line and the first column of the current window.
+
+translate_again
+`	Searches again for the specified pattern in the direction of the
+`	previous Translate command, replacing it with the given string.
+
+translate_back
+`	Searches for the specified pattern from the current position to the
+`	beginning of the buffer, replacing it with the given string.
+
+translate
+`	Searches for the specified pattern from the current position to the
+`	end of the buffer, replacing it with the given string.
+
+undo
+`	Reverses the effect of the last n commands (or as many as your
+`	memory can hold). Any command that writes changes to disk (such as
+`	Write) cannot be reversed.
+
+up
+`	Moves the cursor up one line, staying in the same column. When the
+`	cursor is moved into virtual space, it changes shape.
+
+toupper
+`	Converts the characters in a marked block to uppercase.
+
+use_tab_char
+`	Determines whether spaces or tabs are inserted when the Tab key is
+`	pressed to add filler space.
+
+% warnings_only
+%	Forces the Compile buffer command to check the output from the
+%	compiler for messages. If any warning or error messages are	found,
+%	the compile is considered to have failed.
+%
+write_buffer
+`	Writes the current buffer to disk or, if a block of text is marked,
+`	prompts for a specific file name. BRIEF does not support writing
+`	column blocks.
+
+write_and_exit
+`	Writes all modified buffers, if any, and exits BRIEF without
+`	prompting.
+
+zoom_window
+`	If there is more than one window on the screen, Zoom window toggle
+`	will enlarge the current window to a full screen window, and save
+`	the previous window configuration.
+
+whichkey
+`	Tells which command is invoked by a key.
+`	(brief, non-std)
+
+showkey
+`	Describes the key.
+`	(Jed, same as whichkey)
+
+ascii_code
+`	Inserts character by ASCII code.
+`	(brief, non-std)
+
+save_position
+`	Save cursor position into the stack.
+
+restore_position
+`	Restores previous cursor position from stack.
+
+insert
+`	Inserts a string into the current position.
+
+_home
+	BRIEF's home key.
+
+	[Home] = Beginning of Line.
+	[Home][Home] = Top of Window.
+	[Home][Home][Home] = Beginning of Buffer.
+	
+`	There was 2 version of home macro, the _home and the new_home.
+`	The only I remember is that the _home could	not stored in
+`	KeyStroke Macros. The same for the _end.
+
+_end
+	BRIEF's end key. se
+
+	[End] = End of Line.
+	[End][End] = Bottom of Window.
+	[End][End[End] = End of Buffer.
+
+brace
+`	BRIEF's check braces macro (the buggy one).
+
+comment_block
+`	Comment block
+
+uncomment_block
+`	Uncomment block
+
+dired
+`	Jed's dired macro (file manager).
+
+build_it
+`	Runs make (non-brief)
+
+tocapitalize
+`	Jed's xform_region('c').
+`	(non-brief)
+
+man
+`	Shows a man page.
+`	(non-brief)
+
+pwd
+`	Displays the current working directory.
+`	Same as `cd` without parameters.
+`	(non-brief)
+
+ren
+`	Rename file.
+`	(non-brief)
+
+cp
+`	Copy file. 
+`	(non-brief)
+
+occur
+`	Jed's 'occur' macro.
+`	(non-brief, JED)
+
+color_scheme
+`	Displays or selects a color scheme. ('^AiC' for UI)
+`	(non-brief)
+
+xcopy
+`	Copies the selected block to system clipboard.
+`	(non-brief)
+
+xpaste
+`	Inserts the contents of system clipboard into the current bufffer.
+`	(non-brief)
+
+xcut
+`	Copies the selected block to system clipboard, and remove it.
+`	(non-brief)
+
+

@@ -1,0 +1,7 @@
+% -*- chelp -*- ; cols = 40; cbeg = 32; csep = |;
+ [Enter] or [E] Selects a file. | [W] or [Alt+W] Writes a buffer to disk.
+ [R] Reloads a file from disk.  | [Ctrl+L] Redraw the buffer list.
+ [N] Renames a file/buffer.     | [A] Changes file attributes (chmod or umask).
+ [Q] Quits.                     | [H] or [Ctrl+H] or [Alt+H] This screen.
+ [?] Short help in status bar.
+ [D] or [Del] or [Keypad-Minus] Deletes a file form JED's buffers list.

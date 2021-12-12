@@ -1,0 +1,14 @@
+  Help commands:            Navigation:                  Close
+  ----------------------    -------------------------    --------
+  a  Apropos                Return     Help for word     q  Close
+  d  Grep Definition	    Tab        Next link	 i  Insert word
+  f  Describe Function      Shift Tab  Previous link
+  h  Basic Help             
+  I  Info Reader            History:
+  k  Show Key               -------------------------
+  s  Set Variable   	    Alt Right  Next topic
+  u  Man page (Unix only)   Alt Left   Previous topic
+  v  Describe Variable      
+  w  Where is ...           
+  ?  This Help              
+

@@ -1,0 +1,78 @@
+Awk mode
+This is an editing mode for Awk, or more specifically Gawk 3.1.0.
+
+It has the following features:
+**syntax highlighting
+Awk mode supports both DFA and non-dfa syntax highlighting.  To enable dfa
+highlighting, add this to .jedrc:
+enable_dfa_syntax_for_mode("awk");
+In DFA mode, a /.../ sequence on one line is highlighted as a string.
+
+The keyword table was made with Marko Mahnic's keywords.sl
+#v+
+require("keywords", "keywords.sl");
+define create_awk_mode()
+{
+   if (keywords->check_language("awk")) return;
+	
+   % this from gawk info
+   variable control_statements =
+     "in function if else do while for break return continue next nextfile exit";
+   variable statements = "print printf getline";
+   variable array_statements = "delete";
+   variable builtin_funs = "and asort atan2 bindtextdomain close compl cos dcgettext exp fflush"
+     + " gensub gsub index int length log lshift match mktime or rand rshift sin split sprintf sqrt srand strftime strtonum sub substr system systime tolower toupper xor";
+   
+   variable kwds_block   = "BEGIN END";
+   variable kwds_builtin = "ARGC ARGV ARGIND BINMODE CONVFMT ENVIRON ERRNO FIELDWIDTHS FILENAME IGNORECASE FNR FS LINT NF NR OFMT OFS ORS RLENGTH RS RT RSTART SUBSEP TEXTDOMAIN";
+   
+
+   variable K = keywords->new_keyword_list();
+   keywords->add_keywords(K, control_statements);
+   keywords->add_keywords(K, statements);
+   keywords->add_keywords(K, array_statements);
+   keywords->add_keywords(K, builtin_funs);
+   keywords->sort_keywords(K);
+   keywords->write_keywords (K, "awk", 0, "*scratch*");
+
+   K = keywords->new_keyword_list();
+   keywords->add_keywords(K, kwds_block);
+   keywords->add_keywords(K, kwds_builtin);
+   keywords->sort_keywords(K);
+   keywords->write_keywords (K, "awk", 1, "*scratch*");
+}
+#v-
+
+**indentation
+indentation is better in DFA mode in cases such as
+/#/ {
+**online help
+Awk-mode provides two kinds of online help:
+***info lookup
+If you have the latest version of the JMR's info package and have bound
+info_lookup() to a key (say C-h C-i), and have Gawk installed, you can
+lookup the word at point.
+***quick help
+The Gawk info is too lengthy, so I extracted the keyword info from it and
+put it in JED's help format. Some of the texts are still too lengthy, but
+it's better than the info documentation. Install the JMR's help package,
+and bind help_for_word_at_point to, say, F1. Two extra features:
+****help links
+Words enclosed in `' and "*note" info cross references work as hyperlinks.
+Pres TAB to jump to the next link and then press enter.
+****help search
+Select "apropos" from the mode menu. If you enter "date time" you should see
+#v+
+`srand'
+`strftime'
+#v-
+That is, the help items containing the words "date" and "time".
+**wrapping
+When you reach the wrap margin, awk mode inserts a " \" and wraps the
+line.  To turn this off add this to awk_mode_hook:
+#v+
+set_mode("awk", 2);
+#v-
+**completion
+Install complete.sl and put the awk_words file in your Jed_Home_Directory,
+or use the kcomplete module.

@@ -1,0 +1,1236 @@
+  This is from the info for Gawk 3.1.0
+----------------------------------------------------------------------
+if
+else
+
+   The   `if'-`else'   statement   is   `awk''s   decision-making
+   statement.  It looks like this:
+
+          if (CONDITION) THEN-BODY [else ELSE-BODY]
+
+   The CONDITION is an expression that controls what the rest  of
+   the  statement  does.   If the CONDITION is true, THEN-BODY is
+   executed; otherwise, ELSE-BODY is executed.  The  `else'  part
+   of  the  statement  is  optional.  The condition is considered
+   false if its value is zero or the null string;  otherwise  the
+   condition is true.
+
+----------------------------------------------------------------------
+while
+
+   In programming, a "loop" is a part of a program  that  can  be
+   executed  two  or  more  times  in  succession.   The  `while'
+   statement is the simplest  looping  statement  in  `awk'.   It
+   repeatedly  executes  a  statement  as  long as a condition is
+   true.  For example:
+
+          while (CONDITION)
+            BODY
+
+   BODY is a  statement  called  the  "body"  of  the  loop,  and
+   CONDITION  is  an  expression  that controls how long the loop
+   keeps running.  The first thing the `while' statement does  is
+   test the CONDITION.  If the CONDITION is true, it executes the
+   statement BODY.  (The CONDITION is true when the value is  not
+   zero  and  not  a null string.)  After BODY has been executed,
+   CONDITION is tested again, and if it is still  true,  BODY  is
+   executed  again.   This process repeats until the CONDITION is
+   no longer true.  If the CONDITION is initially false, the body
+   of  the  loop  is  never executed and `awk' continues with the
+   statement following the loop.
+
+----------------------------------------------------------------------
+do
+
+   The `do' loop is a variation of the `while' looping statement.
+   The `do' loop executes the BODY once and then repeats the BODY
+   as long as the CONDITION is true.  It looks like this:
+
+          do
+            BODY
+          while (CONDITION)
+
+   Even  if  the  CONDITION  is  false  at the start, the BODY is
+   executed at least once (and only once, unless  executing  BODY
+   makes  CONDITION  true).  Contrast this with the corresponding
+   `while' statement:
+
+          while (CONDITION)
+            BODY
+
+   This  statement  does  not  execute  BODY  even  once  if  the
+   CONDITION is false to begin with.
+
+----------------------------------------------------------------------
+for
+
+   The  `for'  statement  makes  it  more  convenient  to   count
+   iterations of a loop.  The general form of the `for' statement
+   looks like this:
+
+          for (INITIALIZATION; CONDITION; INCREMENT)
+            BODY
+
+   The  INITIALIZATION,  CONDITION,  and  INCREMENT   parts   are
+   arbitrary  `awk'  expressions,  and  BODY stands for any `awk'
+   statement.
+
+   The `for' statement starts by executing INITIALIZATION.  Then,
+   as  long as the CONDITION is true, it repeatedly executes BODY
+   and then INCREMENT.  Typically, INITIALIZATION sets a variable
+   to either zero or one, INCREMENT adds one to it, and CONDITION
+   compares it against the desired number of iterations.
+
+   There is an alternate version of the `for' loop, for iterating
+   over  all the indices of an array:
+
+          for (i in array)
+              DO SOMETHING WITH array[i]
+
+   *note  Scanning  All  Elements of an Array: Scanning an Array,
+   for more information on this version of the `for' loop.
+
+----------------------------------------------------------------------
+break
+
+   The  `break'  statement  jumps  out  of  the  innermost `for',
+   `while', or `do' loop that encloses it.
+
+----------------------------------------------------------------------
+continue
+
+   As  with `break', the `continue' statement is used only inside
+   `for', `while', and `do' loops.  It skips over the rest of the
+   loop  body,  causing  the  next cycle around the loop to begin
+   immediately.  Contrast this with `break', which jumps  out  of
+   the loop altogether.
+
+   The `continue' statement in a `for' loop directs `awk' to skip
+   the rest of the body of the loop and resume execution with the
+   increment-expression of the `for' statement.
+
+----------------------------------------------------------------------
+next
+
+   The  `next'  statement  forces  `awk'  to   immediately   stop
+   processing  the  current  record and go on to the next record.
+   This means that no further rules are executed for the  current
+   record,  and  the  rest  of  the  current  rule's action isn't
+   executed.
+
+   Contrast this with the effect of the `getline' function (*note
+   Explicit  Input  with  `getline': Getline.).  That also causes
+   `awk' to read the next record immediately,  but  it  does  not
+   alter  the  flow  of control in any way (i.e., the rest of the
+   current action executes with a new input record).
+
+----------------------------------------------------------------------
+nextfile
+
+   `gawk'  provides the `nextfile' statement, which is similar to
+   the  `next'  statement.   However,   instead   of   abandoning
+   processing  of  the  current  record, the `nextfile' statement
+   instructs `gawk' to stop processing the current data file.
+
+   The `nextfile' statement is a `gawk' extension.  In most other
+   `awk'  implementations,  or if `gawk' is in compatibility mode
+   (*note Command-Line  Options:  Options.),  `nextfile'  is  not
+   special.
+
+   Upon  execution  of  the  `nextfile'  statement, `FILENAME' is
+   updated to the name of  the  next  data  file  listed  on  the
+   command  line, `FNR' is reset to one, `ARGIND' is incremented,
+   and processing starts over with the first rule in the program.
+   If the `nextfile' statement  causes the end of the input to be
+   reached,  then the code in any `END' rules is executed.  *note
+   The `BEGIN' and `END' Special Patterns: BEGIN/END.
+
+----------------------------------------------------------------------
+exit
+
+   The  `exit'  statement  causes  `awk'  to   immediately   stop
+   executing  the  current rule and to stop processing input; any
+   remaining input is ignored.  The `exit' statement  is  written
+   as follows:
+
+          exit [RETURN CODE]
+
+   When  an `exit' statement is executed from a `BEGIN' rule, the
+   program stops processing  everything  immediately.   No  input
+   records  are  read.   However, if an `END' rule is present, as
+   part of executing the `exit'  statement,  the  `END'  rule  is
+   executed  (*note  The  `BEGIN'  and  `END'  Special  Patterns:
+   BEGIN/END.).  If `exit' is used as part of an `END'  rule,  it
+   causes the program to stop immediately.
+
+   An  `exit'  statement  that  is not part of a `BEGIN' or `END'
+   rule stops the execution of any further  automatic  rules  for
+   the current record, skips reading any remaining input records,
+   and executes the `END' rule if there is one.
+
+----------------------------------------------------------------------
+int
+
+  USAGE
+   int(X)
+
+   This  returns  the nearest integer to X, located between X and
+   zero and truncated toward zero.
+
+   For  example,  `int(3)'  is  three,   `int(3.9)'   is   three,
+   `int(-3.9)' is -3, and `int(-3)' is -3 as well.
+
+----------------------------------------------------------------------
+sqrt
+
+  USAGE
+   sqrt(X)
+
+   This returns the positive square root of X.  `gawk' reports an
+   error if X is negative.  Thus, `sqrt(4)' is two.
+
+----------------------------------------------------------------------
+exp
+
+  USAGE
+   exp(X)
+
+   This returns the exponential of X (`e  ^  X')  or  reports  an
+   error  if  X  is out of range.  The range of values X can have
+   depends on your machine's floating-point representation.
+
+----------------------------------------------------------------------
+log
+
+  USAGE
+   log(X)
+
+   This  returns  the  natural  logarithm of X, if X is positive;
+   otherwise, it reports an error.
+
+----------------------------------------------------------------------
+sin
+
+  USAGE
+   sin(X)
+
+   This returns the sine of X, with X in radians.
+
+----------------------------------------------------------------------
+cos
+
+  USAGE
+   cos(X)
+
+   This returns the cosine of X, with X in radians.
+
+----------------------------------------------------------------------
+atan2
+
+  USAGE
+   atan2(Y, X)
+
+   This returns the arctangent of `Y / X' in radians.
+
+----------------------------------------------------------------------
+rand
+
+  USAGE
+   rand()
+
+   This returns a  random  number.   The  values  of  `rand'  are
+   uniformly  distributed  between  zero  and  one.  The value is
+   never zero and never one.
+
+   *Caution:* In most `awk'  implementations,  including  `gawk',
+   `rand'  starts  generating  numbers  from  the  same  starting
+   number, or "seed", each time you run `awk'.  Thus,  a  program
+   generates  the same results each time you run it.  The numbers
+   are random within one `awk' run but predictable  from  run  to
+   run.   This  is  convenient  for  debugging, but if you want a
+   program to do different things each time it is used, you  must
+   change  the seed to a value that is different in each run.  To
+   do this, use `srand'.
+
+----------------------------------------------------------------------
+srand
+
+  USAGE
+   srand([X])
+
+   The  function  `srand'  sets  the starting point, or seed, for
+   generating random numbers to the value X.
+
+   Each seed value leads  to  a  particular  sequence  of  random
+   numbers.  Thus,  if the seed is set to the same value a second
+   time, the same sequence of random numbers is produced again.
+
+   Different `awk' implementations use  different  random  number
+   generators internally.  Don't expect the same `awk' program to
+   produce the same series of random  numbers  when  executed  by
+   different versions of `awk'.
+
+   If  the  argument  X  is  omitted,  as  in `srand()', then the
+   current date and time of day are used for a seed.  This is the
+   way to get random numbers that are truly unpredictable.
+
+   The  return value of `srand' is the previous seed.  This makes
+   it easy to keep track  of  the  seeds  in  case  you  need  to
+   consistently reproduce sequences of random numbers.
+
+----------------------------------------------------------------------
+asort
+
+  USAGE
+   asort(SOURCE [, DEST]) #
+
+   `asort' is a `gawk'-specific extension, returning  the  number
+   of  elements  in the array SOURCE.  The contents of SOURCE are
+   sorted using `gawk''s normal rules for comparing  values,  and
+   the  indices  of the sorted values of SOURCE are replaced with
+   sequential integers starting with one. If the  optional  array
+   DEST  is specified, then SOURCE is duplicated into DEST.  DEST
+   is then sorted, leaving the indices of SOURCE unchanged.   For
+   example, if the contents of `a' are as follows:
+
+          a["last"] = "de"
+          a["first"] = "sac"
+          a["middle"] = "cul"
+
+   A call to `asort':
+
+          asort(a)
+
+   results in the following contents of `a':
+
+          a[1] = "cul"
+          a[2] = "de"
+          a[3] = "sac"
+
+   The  `asort'  function  is  described  in more detail in *note
+   Sorting Array Values and Indices with `gawk':  Array  Sorting.
+   `asort'  is  a  `gawk'  extension;  it  is  not  available  in
+   compatibility mode (*note Command-Line Options: Options.).
+
+----------------------------------------------------------------------
+index
+
+  USAGE
+   index(IN, FIND)
+
+   This  searches  the  string IN for the first occurrence of the
+   string FIND, and returns the position in characters where that
+   occurrence  begins  in  the string IN.  Consider the following
+   example:
+
+          $ awk 'BEGIN { print index("peanut", "an") }'
+          -| 3
+
+   If FIND is not found, `index' returns  zero.   (Remember  that
+   string indices in `awk' start at one.)
+
+----------------------------------------------------------------------
+length
+
+  USAGE
+   length([STRING])
+
+   This returns the number of characters in STRING.  If STRING is
+   a  number,  the  length  of the digit string representing that
+   number is returned.  For example, `length("abcde")' is 5.   By
+   contrast,  `length(15  * 35)' works out to 3. In this example,
+   15 * 35 = 525,  and  525  is  then  converted  to  the  string
+   `"525"', which has three characters.
+
+   If  no  argument  is  supplied, `length' returns the length of
+   `$0'.
+
+----------------------------------------------------------------------
+match
+
+  USAGE
+   match(STRING, REGEXP [, ARRAY])
+
+   The  `match' function searches STRING for the longest leftmost
+   substring matched  by  the  regular  expression,  REGEXP.   It
+   returns   the  character  position,  or  "index",  where  that
+   substring begins (one,  if  it  starts  at  the  beginning  of
+   STRING).  If no match is found, it returns zero.
+
+   The  order  of  the first two arguments is backwards from most
+   other string functions that  work  with  regular  expressions,
+   such  as `sub' and `gsub'.  It might help to remember that for
+   `match', the order is  the  same  as  for  the  `~'  operator:
+   `STRING ~ REGEXP'.
+
+   The  `match'  function  sets the built-in variable `RSTART' to
+   the index.  It also sets the built-in  variable  `RLENGTH'  to
+   the  length  in  characters  of  the matched substring.  If no
+   match is found, `RSTART' is set to zero, and `RLENGTH' to  -1.
+
+   If  ARRAY is present, it is cleared, and then the 0'th element
+   of ARRAY is set to the entire portion  of  STRING  matched  by
+   REGEXP.   If  REGEXP contains parentheses, the integer-indexed
+   elements of ARRAY are set to contain  the  portion  of  STRING
+   matching the corresponding parenthesized sub-expression.
+
+----------------------------------------------------------------------
+split
+
+  USAGE
+   split(STRING, ARRAY [, FIELDSEP])
+
+   This  function  divides  STRING  into  pieces   separated   by
+   FIELDSEP,  and stores the pieces in ARRAY.  The first piece is
+   stored in `ARRAY[1]', the second piece in `ARRAY[2]',  and  so
+   forth.  The string value of the third argument, FIELDSEP, is a
+   regexp describing where to split STRING (much as `FS' can be a
+   regexp  describing  where  to  split  input  records).  If the
+   FIELDSEP is omitted, the  value  of  `FS'  is  used.   `split'
+   returns  the  number  of elements created.  If STRING does not
+   match FIELDSEP, ARRAY is empty and `split' returns zero.
+
+   The `split' function splits strings into pieces  in  a  manner
+   similar  to  the  way  input lines are split into fields.  For
+   example:
+
+          split("cul-de-sac", a, "-")
+
+   splits the string `cul-de-sac' into three fields using `-'  as
+   the  separator.   It  sets  the  contents  of the array `a' as
+   follows:
+
+          a[1] = "cul"
+          a[2] = "de"
+          a[3] = "sac"
+
+   The value returned by this call to `split' is three.
+
+   As with input field-splitting, when the value of  FIELDSEP  is
+   `"  "',  leading  and  trailing  whitespace is ignored and the
+   elements are separated by runs of whitespace.   Also  as  with
+   input  field-splitting,  if  FIELDSEP is the null string, each
+   individual character in the string is split into its own array
+   element.  (This is a `gawk'-specific extension.)
+
+   Modern  implementations  of `awk', including `gawk', allow the
+   third argument to be a regexp constant (`/abc/') as well as  a
+   string.  (d.c.)  The POSIX standard allows this as well.
+
+   Before  splitting  the  string, `split' deletes any previously
+   existing elements in the array  ARRAY.   If  STRING  does  not
+   match  FIELDSEP  at all, ARRAY has one element only. The value
+   of that element is the original STRING.
+
+----------------------------------------------------------------------
+sprintf
+
+  USAGE
+   sprintf(FORMAT, EXPRESSION1, ...)
+
+   This returns (without printing) the string that `printf' would
+   have printed out with the same arguments (*note Using `printf'
+   Statements for Fancier Printing: Printf.).  For example:
+
+          pival = sprintf("pi = %.2f (approx.)", 22/7)
+
+   assigns  the  string  `"pi  = 3.14 (approx.)"' to the variable
+   `pival'.
+
+----------------------------------------------------------------------
+strtonum
+
+  USAGE
+   strtonum(STR) #
+
+   Examines  STR  and  returns  its numeric value.  If STR begins
+   with a leading `0', `strtonum' assumes that STR  is  an  octal
+   number.  If STR begins with a leading `0x' or `0X', `strtonum'
+   assumes that STR is a hexadecimal number.  For example:
+
+          $ echo 0x11 |
+          > gawk '{ printf "%d0, strtonum($1) }'
+          -| 17
+
+   Using the `strtonum' function is _not_ the same as adding zero
+   to  a  string  value;  the  automatic  coercion  of strings to
+   numbers  works  only  for  decimal  data,  not  for  octal  or
+   hexadecimal.
+
+   `strtonum'  is  a  `gawk'  extension;  it  is not available in
+   compatibility mode (*note Command-Line Options: Options.).
+
+----------------------------------------------------------------------
+sub
+
+  USAGE
+   sub(REGEXP, REPLACEMENT [, TARGET])
+
+   The  `sub'  function  alters the value of TARGET.  It searches
+   this value, which is treated as a  string,  for  the  leftmost
+   longest  substring  matched  by the regular expression REGEXP.
+   Then the entire string is changed  by  replacing  the  matched
+   text  with  REPLACEMENT.   The modified string becomes the new
+   value of TARGET.
+
+   This function is peculiar because TARGET is not simply used to
+   compute  a value, and not just any expression will do--it must
+   be a variable, field, or array element so that `sub' can store
+   a modified value there.  If this argument is omitted, then the
+   default is to use and alter `$0'.  For example:
+
+          str = "water, water, everywhere"
+          sub(/at/, "ith", str)
+
+   sets `str' to `"wither, water, everywhere"', by replacing  the
+   leftmost longest occurrence of `at' with `ith'.
+
+   The  `sub'  function  returns the number of substitutions made
+   (either one or zero).
+
+   If the special character `&' appears in REPLACEMENT, it stands
+   for the precise substring that was matched by REGEXP.  (If the
+   regexp can match more  than  one  string,  then  this  precise
+   substring may vary.)  For example:
+
+          { sub(/candidate/, "& and his wife"); print }
+
+   changes  the first occurrence of `candidate' to `candidate and
+   his wife' on each input line.
+
+   Finally, if the  REGEXP  is  not  a  regexp  constant,  it  is
+   converted  into a string, and then the value of that string is
+   treated as the regexp to match.
+
+----------------------------------------------------------------------
+gsub
+
+  USAGE
+   gsub(REGEXP, REPLACEMENT [, TARGET])
+
+   This  is similar to the `sub' function, except `gsub' replaces
+   _all_ of the  longest,  leftmost,  _non-overlapping_  matching
+   substrings  it  can  find.   The  `g'  in  `gsub'  stands  for
+   "global," which means replace everywhere.  For example:
+
+          { gsub(/Britain/, "United Kingdom"); print }
+
+   replaces all occurrences of the string `Britain' with  `United
+   Kingdom' for all input records.
+
+   The  `gsub' function returns the number of substitutions made.
+   If the variable to search and alter (TARGET) is omitted,  then
+   the  entire  input  record  (`$0')  is used.  As in `sub', the
+   characters `&' and `' are special, and the third argument must
+   be assignable.
+
+----------------------------------------------------------------------
+gensub
+
+  USAGE
+   gensub(REGEXP, REPLACEMENT, HOW [, TARGET]) #
+
+   `gensub' is a general substitution function.  Like  `sub'  and
+   `gsub',  it  searches  the target string TARGET for matches of
+   the regular expression REGEXP.  Unlike `sub' and  `gsub',  the
+   modified  string is returned as the result of the function and
+   the original target string is _not_  changed.   If  HOW  is  a
+   string beginning with `g' or `G', then it replaces all matches
+   of REGEXP with REPLACEMENT.  Otherwise, HOW is  treated  as  a
+   number  that indicates which match of REGEXP to replace. If no
+   TARGET is supplied, `$0' is used.
+
+   `gensub' provides an additional feature that is not  available
+   in  `sub'  or  `gsub':  the ability to specify components of a
+   regexp in  the  replacement  text.   This  is  done  by  using
+   parentheses  in  the  regexp  to  mark the components and then
+   specifying `n the replacement text, where N is a digit from  1
+   to 9.
+
+   As  with  `sub', you must type two backslashes in order to get
+   one into the string.
+
+   In the replacement  text,  the  sequence  ` '  represents  the
+   entire matched text, as does the character `&'.
+
+   If  the  HOW argument is a string that does not begin with `g'
+   or `G', or if it is a number that is less  than  or  equal  to
+   zero,  only  one  substitution  is performed.  If HOW is zero,
+   `gawk' issues a warning message.
+
+   If REGEXP does not match TARGET, `gensub''s  return  value  is
+   the original unchanged value of TARGET.
+
+   `gensub'  is  a  `gawk'  extension;  it  is  not  available in
+   compatibility mode (*note Command-Line Options: Options.).
+
+----------------------------------------------------------------------
+substr
+
+  USAGE
+   substr(STRING, START [, LENGTH])
+
+   This  returns  a  LENGTH-character-long  substring  of STRING,
+   starting at character number START.  The first character of  a
+   string    is    character    number    one.    For    example,
+   `substr("washington", 5, 3)' returns `"ing"'.
+
+   If LENGTH is not present,  this  function  returns  the  whole
+   suffix  of  STRING that begins at character number START.  For
+   example, `substr("washington", 5)'  returns  `"ington"'.   The
+   whole  suffix  is  also returned if LENGTH is greater than the
+   number of characters remaining in the  string,  counting  from
+   character number START.
+
+----------------------------------------------------------------------
+tolower
+
+  USAGE
+   tolower(STRING)
+
+   This returns a copy of STRING, with each  uppercase  character
+   in  the  string  replaced  with  its  corresponding  lowercase
+   character.  Non-alphabetic characters are left unchanged.  For
+   example,  `tolower("MiXeD  cAsE  123")'  returns  `"mixed case
+   123"'.
+
+----------------------------------------------------------------------
+toupper
+
+  USAGE
+   toupper(STRING)
+
+   This  returns  a copy of STRING, with each lowercase character
+   in  the  string  replaced  with  its  corresponding  uppercase
+   character.  Non-alphabetic characters are left unchanged.  For
+   example, `toupper("MiXeD  cAsE  123")'  returns  `"MIXED  CASE
+   123"'.
+
+----------------------------------------------------------------------
+close
+
+  USAGE
+   close(FILENAME [, HOW])
+
+   Close the file FILENAME for input  or  output.  Alternatively,
+   the argument may be a shell command that was used for creating
+   a coprocess, or for redirecting to or from a  pipe;  then  the
+   coprocess  or  pipe is closed.  *note Closing Input and Output
+   Redirections: Close Files And Pipes, for more information.
+
+   When closing a coprocess, it is occasionally useful  to  first
+   close  one  end  of  the  two-way  pipe, and then to close the
+   other.  This  is  done  by  providing  a  second  argument  to
+   `close'.  This second argument should be one of the two string
+   values `"to"' or `"from"', indicating which end of the pipe to
+   close.   Case  in  the  string does not matter.  *note Two-Way
+   Communications  with  Another  Process:  Two-way  I/O,   which
+   discusses this feature in more detail and gives an example.
+
+----------------------------------------------------------------------
+fflush
+
+  USAGE
+   fflush([FILENAME])
+
+   Flush any buffered output associated with FILENAME,  which  is
+   either  a  file  opened  for  writing  or  a shell command for
+   redirecting output to a pipe or coprocess.
+
+   Many utility programs "buffer" their output; i.e.,  they  save
+   information  to  write  to  a disk file or terminal in memory,
+   until there is enough for it to be worthwhile to send the data
+   to  the  output  device.   This  is  often more efficient than
+   writing every little bit of  information  as  soon  as  it  is
+   ready.   However, sometimes it is necessary to force a program
+   to "flush" its buffers; that is, write the information to  its
+   destination,  even  if  a  buffer  is  not  full.  This is the
+   purpose of the  `fflush'  function--`gawk'  also  buffers  its
+   output  and  the  `fflush' function forces `gawk' to flush its
+   buffers.
+
+   `fflush' was added to the Bell Laboratories  research  version
+   of  `awk' in 1994; it is not part of the POSIX standard and is
+   not available if `--posix' has been specified on  the  command
+   line (*note Command-Line Options: Options.).
+
+   `gawk'  extends  the `fflush' function in two ways.  The first
+   is to allow no argument at all. In this case, the  buffer  for
+   the  standard  output  is flushed.  The second is to allow the
+   null string (`""') as the argument. In this case, the  buffers
+   for _all_ open output files and pipes are flushed.
+
+   `fflush'  returns  zero if the buffer is successfully flushed;
+   otherwise it returns -1.  In the case where  all  buffers  are
+   flushed,  the  return  value  is zero only if all buffers were
+   flushed successfully.  Otherwise, it is -1, and  `gawk'  warns
+   about the FILENAME that had the problem.
+
+   `gawk' also issues a warning message if you attempt to flush a
+   file or pipe  that  was  opened  for  reading  (such  as  with
+   `getline'),  or  if  FILENAME  is  not  an open file, pipe, or
+   coprocess.  In such a case, `fflush' returns -1 as well.
+
+----------------------------------------------------------------------
+system
+
+  USAGE
+   system(COMMAND)
+
+   The  `system'  function  allows  the user to execute operating
+   system commands and then return to  the  `awk'  program.   The
+   `system'  function  executes  the  command given by the string
+   COMMAND.  It returns the status returned by the  command  that
+   was executed as its value.
+
+   For  example, if the following fragment of code is put in your
+   `awk' program:
+
+          END {
+               system("date | mail -s 'awk run done' root")
+          }
+
+   the system administrator is sent mail when the  `awk'  program
+   finishes   processing   input   and  begins  its  end-of-input
+   processing.
+
+   Note that redirecting `print' or `printf' into a pipe is often
+   enough  to  accomplish  your  task.   If  you need to run many
+   commands, it is more efficient to simply  print  them  down  a
+   pipeline to the shell:
+
+          while (MORE STUFF TO DO)
+              print COMMAND | "/bin/sh"
+          close("/bin/sh")
+
+   However,  if  your  `awk'  program is interactive, `system' is
+   useful for cranking up large self-contained programs, such  as
+   a shell or an editor.  Some operating systems cannot implement
+   the `system' function.  `system' causes a fatal error if it is
+   not supported.
+
+----------------------------------------------------------------------
+systime
+
+  USAGE
+   systime()
+
+   This function returns  the  current  time  as  the  number  of
+   seconds since the system epoch.  On POSIX systems, this is the
+   number of seconds since 1970-01-01 00:00:00 UTC, not  counting
+   leap  seconds.  It may be a different number on other systems.
+
+----------------------------------------------------------------------
+mktime
+
+  USAGE
+   mktime(DATESPEC)
+
+   This function turns DATESPEC into a timestamp in the same form
+   as is returned by `systime'.  It is similar to the function of
+   the  same  name in ISO C.  The argument, DATESPEC, is a string
+   of the form `"YYYY  MM  DD  HH  MM  SS  [DST]"'.   The  string
+   consists  of  six or seven numbers representing, respectively,
+   the full year including century, the month from 1 to  12,  the
+   day  of  the month from 1 to 31, the hour of the day from 0 to
+   23, the minute from 0 to 59, the second from 0 to 60,  and  an
+   optional daylight savings flag.
+
+   The  values  of  these  numbers  need not be within the ranges
+   specified; for example, an hour of  -1  means  1  hour  before
+   midnight.  The origin-zero Gregorian calendar is assumed, with
+   year 0 preceding year 1 and year -1  preceding  year  0.   The
+   time  is assumed to be in the local timezone.  If the daylight
+   savings flag is positive, the time is assumed to  be  daylight
+   savings  time;  if  zero,  the  time is assumed to be standard
+   time; and if negative  (the  default),  `mktime'  attempts  to
+   determine  whether  daylight savings time is in effect for the
+   specified time.
+
+   If DATESPEC  does  not  contain  enough  elements  or  if  the
+   resulting time is out of range, `mktime' returns -1.
+
+----------------------------------------------------------------------
+strftime
+
+  USAGE
+   strftime([FORMAT [, TIMESTAMP]])
+
+   This function returns a string.  It is similar to the function
+   of the same name in ISO C.  The time specified by TIMESTAMP is
+   used to produce a string, based on the contents of the  FORMAT
+   string.   The  TIMESTAMP  is  in  the same format as the value
+   returned by the `systime' function.  If no TIMESTAMP  argument
+   is  supplied,  `gawk'  uses  the  current  time  of day as the
+   timestamp.  If no FORMAT argument is supplied, `strftime' uses
+   `"%a  %b  %d  %H:%M:%S  %Z  %Y"'.  This format string produces
+   output that is (almost)  equivalent  to  that  of  the  `date'
+   utility.   (Versions of `gawk' prior to 3.0 require the FORMAT
+   argument.)
+
+----------------------------------------------------------------------
+dcgettext
+
+  USAGE
+   dcgettext(STRING [, DOMAIN [, CATEGORY]])
+
+   This function returns the translation of STRING in text domain
+   DOMAIN for locale category CATEGORY.  The  default  value  for
+   DOMAIN  is  the  current  value  of `TEXTDOMAIN'.  The default
+   value for CATEGORY is `"LC_MESSAGES"'.
+
+----------------------------------------------------------------------
+bindtextdomain
+
+  USAGE
+   bindtextdomain(DIRECTORY [, DOMAIN])
+
+   This function allows you to specify the directory where `gawk'
+   will look for message translation files, in case they will not
+   or  cannot be placed in the "standard" locations (e.g., during
+   testing).  It returns the directory where DOMAIN is "bound."
+
+   The default DOMAIN is the value of `TEXTDOMAIN'.  If DIRECTORY
+   is  the  null string (`""'), then `bindtextdomain' returns the
+   current binding for the given DOMAIN.
+
+----------------------------------------------------------------------
+BINMODE
+
+   On  non-POSIX systems, this variable specifies use of "binary"
+   mode for all I/O.  Numeric  values  of  one,  two,  or  three,
+   specify   that  input  files,  output  files,  or  all  files,
+   respectively, should use binary  I/O.   Alternatively,  string
+   values  of  `"r"' or `"w"' specify that input files and output
+   files, respectively, should use binary I/O.  A string value of
+   `"rw"'  or  `"wr"'  indicates that all files should use binary
+   I/O.  Any other string value  is  equivalent  to  `"rw"',  but
+   `gawk' generates a warning message.  `BINMODE' is described in
+   more detail in *note Using `gawk' on PC Operating Systems:  PC
+   Using.
+
+   This   variable   is  a  `gawk'  extension.   In  other  `awk'
+   implementations (except `mawk', *note Other  Freely  Available
+   `awk'  Implementations:  Other  Versions.), or if `gawk' is in
+   compatibility mode (*note Command-Line Options: Options.),  it
+   is not special.
+
+----------------------------------------------------------------------
+CONVFMT
+
+   This string controls conversion of numbers to  strings  (*note
+   Conversion  of Strings and Numbers: Conversion.).  It works by
+   being  passed,  in  effect,  as  the  first  argument  to  the
+   `sprintf'   function  (*note  String  Manipulation  Functions:
+   String Functions.).  Its default value is `"%.6g"'.  `CONVFMT'
+   was introduced by the POSIX standard.
+
+----------------------------------------------------------------------
+FIELDWIDTHS
+
+   This is a space-separated list of columns  that  tells  `gawk'
+   how  to split input with fixed columnar boundaries.  Assigning
+   a value to `FIELDWIDTHS' overrides the use of `FS'  for  field
+   splitting.  *note Reading Fixed-Width Data: Constant Size, for
+   more information.
+
+   If  `gawk'  is  in  compatibility  mode  (*note   Command-Line
+   Options: Options.), then `FIELDWIDTHS' has no special meaning,
+   and field-splitting operations occur based exclusively on  the
+   value of `FS'.
+
+----------------------------------------------------------------------
+FS
+
+   This is the input field separator (*note Specifying How Fields
+   Are  Separated:  Field  Separators.).   The value is a single-
+   character string or a multi-character regular expression  that
+   matches the separations between fields in an input record.  If
+   the value is the null string (`""'), then  each  character  in
+   the  record  becomes  a  separate  field.  (This behavior is a
+   `gawk' extension. POSIX `awk' does not  specify  the  behavior
+   when `FS' is the null string.)
+
+   The  default  value  is `" "', a string consisting of a single
+   space.  As a special exception,  this  value  means  that  any
+   sequence   of  spaces,  tabs,  and/or  newlines  is  a  single
+   separator.  It also causes spaces, tabs, and newlines  at  the
+   beginning and end of a record to be ignored.
+
+   You  can  set  the value of `FS' on the command line using the
+   `-F' option:
+
+          awk -F, 'PROGRAM' INPUT-FILES
+
+   If  `gawk'  is  using  `FIELDWIDTHS'  for   field   splitting,
+   assigning  a  value  to  `FS'  causes  `gawk' to return to the
+   normal, `FS'-based field splitting. An easy way to do this  is
+   to  simply say `FS = FS', perhaps with an explanatory comment.
+
+----------------------------------------------------------------------
+IGNORECASE
+
+   If  `IGNORECASE'  is  nonzero  or  non-null,  then  all string
+   comparisons and all  regular  expression  matching  are  case-
+   independent.  Thus, regexp matching with `~' and `!~', as well
+   as the `gensub', `gsub', `index', `match', `split', and  `sub'
+   functions,  record  termination with `RS', and field splitting
+   with `FS', all ignore case when doing their particular  regexp
+   operations.   However,  the  value  of `IGNORECASE' does _not_
+   affect  array  subscripting.   *note   Case   Sensitivity   in
+   Matching: Case-sensitivity.
+
+   If   `gawk'  is  in  compatibility  mode  (*note  Command-Line
+   Options: Options.), then `IGNORECASE' has no special  meaning.
+   Thus,  string and regexp operations are always case-sensitive.
+
+----------------------------------------------------------------------
+LINT
+
+   When  this  variable  is  true  (nonzero  or non-null), `gawk'
+   behaves as if the `--lint' command-line option is  in  effect.
+   (*note  Command-Line  Options:  Options.).   With  a  value of
+   `"fatal"', lint warnings become fatal errors.  Any other  true
+   value  prints  non-fatal warnings.  Assigning a false value to
+   `LINT' turns off the lint warnings.
+
+   This variable is a `gawk' extension.  It  is  not  special  in
+   other   `awk'   implementations.   Unlike  the  other  special
+   variables, changing `LINT' does affect the production of  lint
+   warnings,  even  if  `gawk' is in compatibility mode.  Much as
+   the `--lint' and `--traditional' options independently control
+   different  aspects  of  `gawk''s behavior, the control of lint
+   warnings during program execution is independent of the flavor
+   of `awk' being executed.
+
+----------------------------------------------------------------------
+OFMT
+
+   This string controls conversion of numbers to  strings  (*note
+   Conversion  of  Strings and Numbers: Conversion.) for printing
+   with the `print' statement.  It works by being passed  as  the
+   first   argument  to  the  `sprintf'  function  (*note  String
+   Manipulation Functions: String Functions.).  Its default value
+   is  `"%.6g"'.   Earlier  versions of `awk' also used `OFMT' to
+   specify the  format  for  converting  numbers  to  strings  in
+   general expressions; this is now done by `CONVFMT'.
+
+----------------------------------------------------------------------
+OFS
+
+   This   is   the   output   field   separator   (*note   Output
+   Separators::).   It  is output between the fields printed by a
+   `print' statement.  Its default  value  is  `"  "',  a  string
+   consisting of a single space.
+
+----------------------------------------------------------------------
+ORS
+
+   This is the output record separator.  It is output at the  end
+   of  every  `print'  statement.  Its default value is `"0', the
+   newline character.  (*note Output Separators::.)
+
+----------------------------------------------------------------------
+RS
+
+   This  is `awk''s input record separator.  Its default value is
+   a string containing a single newline  character,  which  means
+   that  an  input  record consists of a single line of text.  It
+   can also be  the  null  string,  in  which  case  records  are
+   separated  by runs of blank lines.  If it is a regexp, records
+   are separated by matches of the  regexp  in  the  input  text.
+   (*note How Input Is Split into Records: Records.)
+
+   The  ability  for  `RS' to be a regular expression is a `gawk'
+   extension.  In most other `awk' implementations, or if  `gawk'
+   is   in   compatibility   mode  (*note  Command-Line  Options:
+   Options.), just the first character of `RS''s value is used.
+
+----------------------------------------------------------------------
+SUBSEP
+
+   This  is the subscript separator.  It has the default value of
+   `" 34"' and is used to separate the parts of the indices of  a
+   multidimensional  array.  Thus, the expression `foo["A", "B"]'
+   really accesses `foo["A 34B"]' (*note Multidimensional Arrays:
+   Multi-dimensional.).
+
+----------------------------------------------------------------------
+TEXTDOMAIN
+
+
+   This variable is used for internationalization of programs  at
+   the  `awk'  level.   It  sets  the  default  text  domain  for
+   specially marked string constants in the source text, as  well
+   as  for  the `dcgettext' and `bindtextdomain' functions (*note
+   Internationalization with `gawk': Internationalization.).  The
+   default value of `TEXTDOMAIN' is `"messages"'.
+
+   This   variable   is  a  `gawk'  extension.   In  other  `awk'
+   implementations, or if `gawk' is in compatibility mode  (*note
+   Command-Line Options: Options.), it is not special.
+
+----------------------------------------------------------------------
+
+
+ARGC
+ARGV
+   The command-line arguments available  to  `awk'  programs  are
+   stored  in  an  array  called `ARGV'.  `ARGC' is the number of
+   command-line  arguments  present.   *note  Other  Command-Line
+   Arguments:  Other Arguments.  Unlike most `awk' arrays, `ARGV'
+   is indexed from 0 to `ARGC' - 1.  In the following example:
+
+          $ awk 'BEGIN {
+          >         for (i = 0; i < ARGC; i++)
+          >             print ARGV[i]
+          >      }' inventory-shipped BBS-list
+          -| awk
+          -| inventory-shipped
+          -| BBS-list
+
+   `ARGV[0]' contains `"awk"',  `ARGV[1]'  contains  `"inventory-
+   shipped"'  and  `ARGV[2]' contains `"BBS-list"'.  The value of
+   `ARGC' is three, one more than the index of the  last  element
+   in `ARGV', because the elements are numbered from zero.
+
+   The  names  `ARGC'  and  `ARGV',  as well as the convention of
+   indexing the array from 0 to `ARGC' - 1, are derived from  the
+   C language's method of accessing command-line arguments.
+
+   The  value of `ARGV[0]' can vary from system to system.  Also,
+   you should note that the program text  is  _not_  included  in
+   `ARGV',  nor  are  any of `awk''s command-line options.  *note
+   Using `ARGC' and `ARGV': ARGC and ARGV, for information  about
+   how `awk' uses these variables.
+
+----------------------------------------------------------------------
+ARGIND
+
+   This is  the  index  in  `ARGV'  of  the  current  file  being
+   processed.   Every  time  `gawk'  opens  a  new  data file for
+   processing, it sets `ARGIND' to the index  in  `ARGV'  of  the
+   file  name.   When  `gawk'  is  processing  the  input  files,
+   `FILENAME == ARGV[ARGIND]' is always true.
+
+   This variable is useful in file processing; it allows  you  to
+   tell  how  far along you are in the list of data files as well
+   as to distinguish between successive  instances  of  the  same
+   file name on the command line.
+
+   While  you  can change the value of `ARGIND' within your `awk'
+   program, `gawk' automatically sets it to a new value when  the
+   next file is opened.
+
+   This   variable   is  a  `gawk'  extension.   In  other  `awk'
+   implementations, or if `gawk' is in compatibility mode  (*note
+   Command-Line Options: Options.), it is not special.
+
+----------------------------------------------------------------------
+ENVIRON
+
+   An  associative  array  that  contains  the  values   of   the
+   environment.   The  array indices are the environment variable
+   names;  the  elements  are  the  values  of   the   particular
+   environment  variables.   For example, `ENVIRON["HOME"]' might
+   be `/home/arnold'.  Changing this array does  not  affect  the
+   environment passed on to any programs that `awk' may spawn via
+   redirection or the `system' function.
+
+   Some operating systems may not have environment variables.  On
+   such  systems,  the  `ENVIRON'  array  is  empty  (except  for
+   `ENVIRON["AWKPATH"]',   *note   The   `AWKPATH'    Environment
+   Variable: AWKPATH Variable.).
+
+----------------------------------------------------------------------
+ERRNO
+
+   If a system error occurs during a redirection  for  `getline',
+   during  a  read  for `getline', or during a `close' operation,
+   then `ERRNO' contains a string describing the error.
+
+   This  variable  is  a  `gawk'  extension.   In   other   `awk'
+   implementations,  or if `gawk' is in compatibility mode (*note
+   Command-Line Options: Options.), it is not special.
+
+----------------------------------------------------------------------
+FILENAME
+
+   This  is the name of the file that `awk' is currently reading.
+   When no data files are listed on the command line, `awk' reads
+   from  the  standard  input  and  `FILENAME'  is  set to `"-"'.
+   `FILENAME' is changed each time a  new  file  is  read  (*note
+   Reading  Input Files: Reading Files.).  Inside a `BEGIN' rule,
+   the value of `FILENAME' is `""',  since  there  are  no  input
+   files  being  processed  yet.  (d.c.)  Note though, that using
+   `getline' (*note  Explicit  Input  with  `getline':  Getline.)
+   inside a `BEGIN' rule can give `FILENAME' a value.
+
+----------------------------------------------------------------------
+FNR
+
+   This is the current record number in the current file.   `FNR'
+   is  incremented each time a new record is read (*note Explicit
+   Input with `getline': Getline.).  It is reinitialized to  zero
+   each time a new input file is started.
+
+----------------------------------------------------------------------
+NF
+
+   This is the number of fields  in  the  current  input  record.
+   `NF'  is  set each time a new record is read, when a new field
+   is created or  when  `$0'  changes  (*note  Examining  Fields:
+   Fields.).
+
+----------------------------------------------------------------------
+NR
+
+   This is the number of input records `awk' has processed  since
+   the  beginning  of the program's execution (*note How Input Is
+   Split into Records: Records.).  `NR' is incremented each  time
+   a new record is read.
+
+----------------------------------------------------------------------
+PROCINFO
+
+   The elements of this array provide access to information about
+   the  running  `awk'  program.   The following elements (listed
+   alphabetically) are guaranteed to be available:
+
+    `PROCINFO["egid"]'
+          The value of the `getegid' system call.
+
+    `PROCINFO["euid"]'
+          The value of the `geteuid' system call.
+
+    `PROCINFO["FS"]'
+          This is `"FS"' if field splitting with `FS' is in effect, or
+          it is `"FIELDWIDTHS"' if field splitting with `FIELDWIDTHS'
+          is in effect.
+
+    `PROCINFO["gid"]'
+          The value of the `getgid' system call.
+
+    `PROCINFO["pgrpid"]'
+          The process group ID of the current process.
+
+    `PROCINFO["pid"]'
+          The process ID of the current process.
+
+    `PROCINFO["ppid"]'
+          The parent process ID of the current process.
+
+    `PROCINFO["uid"]'
+          The value of the `getuid' system call.
+
+   On  some  systems,  there  may  be  elements  in  the   array,
+   `"group1"'  through  `"groupN"' for some N. N is the number of
+   supplementary groups that  the  process  has.   Use  the  `in'
+   operator  to  test  for  these elements (*note Referring to an
+   Array Element: Reference to Elements.).
+
+   This  array  is  a   `gawk'   extension.    In   other   `awk'
+   implementations,  or if `gawk' is in compatibility mode (*note
+   Command-Line Options: Options.), it is not special.
+
+----------------------------------------------------------------------
+RLENGTH
+
+   This  is  the  length  of the substring matched by the `match'
+   function  (*note   String   Manipulation   Functions:   String
+   Functions.).    `RLENGTH'  is  set  by  invoking  the  `match'
+   function.  Its value is the length of the matched  string,  or
+   -1 if no match is found.
+
+----------------------------------------------------------------------
+RSTART
+
+   This is the start-index in characters of the substring that is
+   matched  by  the  `match'  function (*note String Manipulation
+   Functions: String Functions.).  `RSTART' is  set  by  invoking
+   the `match' function.  Its value is the position of the string
+   where the matched substring starts, or zero if  no  match  was
+   found.
+
+----------------------------------------------------------------------
+RT
+
+   This is set each time a record is read. It contains the  input
+   text  that  matched  the  text  denoted  by  `RS',  the record
+   separator.
+
+   This  variable  is  a  `gawk'  extension.   In   other   `awk'
+   implementations,  or if `gawk' is in compatibility mode (*note
+   Command-Line Options: Options.), it is not special.
+
+----------------------------------------------------------------------
+
+  some extras from the manpage
+
+----------------------------------------------------------------------
+function
+
+       Functions in AWK are defined as follows:
+
+              function name(parameter list) { statements }
+
+       Functions are executed when they are  called  from  within
+       expressions in either patterns or actions.  Actual parame­
+       ters supplied in the function call are used to instantiate
+       the  formal  parameters  declared in the function.  Arrays
+       are passed by reference, other  variables  are  passed  by
+       value.
+
+       Since  functions  were not originally part of the AWK lan­
+       guage, the provision for local variables is rather clumsy:
+       They  are  declared  as  extra parameters in the parameter
+       list.  The convention is to separate local variables  from
+       real  parameters  by  extra  spaces in the parameter list.
+       For example:
+
+              function  f(p, q,     a, b)   # a and b are local
+              {
+                   ...
+              }
+
+              /abc/     { ... ; f(1, 2) ; ... }
+
+       The left parenthesis in a function  call  is  required  to
+       immediately  follow  the function name, without any inter­
+       vening white space.  This is to avoid a syntactic  ambigu­
+       ity  with  the  concatenation  operator.  This restriction
+       does not apply to the built-in functions listed above.
+
+       Functions may call each other and may be recursive.  Func­
+       tion parameters used as local variables are initialized to
+       the null string and the number zero upon function  invoca­
+       tion.
+
+       Use  return  expr  to return a value from a function.  The
+       return value is undefined if no value is provided,  or  if
+       the function returns by "falling off" the end.
+
+----------------------------------------------------------------------
+and
+compl
+lshift
+compl
+or
+rshift
+xor
+    and(v1, v2)         Return the bitwise AND of  the  values
+                        provided by v1 and v2.
+    
+    compl(val)          Return  the bitwise complement of val.
+    
+    lshift(val, count)  Return the value of val, shifted  left
+                        by count bits.
+    
+    or(v1, v2)          Return  the  bitwise  OR of the values
+                        provided by v1 and v2.
+    
+    rshift(val, count)  Return the value of val, shifted right
+                        by count bits.
+    
+    xor(v1, v2)         Return  the  bitwise XOR of the values
+                        provided by v1 and v2.
