@@ -87,7 +87,7 @@ Alt+Ctrl+V = Paste
 Alt+Ctrl+X = Cut
 ```
 
-Laptop mode (default on)
+Laptop mode (default off)
 ```
 Ctrl+Up    = PageUp
 Ctrl+Down  = PageDown
