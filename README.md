@@ -104,4 +104,8 @@ Ctrl+Left  = Home
 Ctrl+Right = End
 ```
 
+## User's terminal codes fix file
+
+The `~/.jed/terminal.sl` file is used for any user to fix terminal incompatibilities.
+
 
