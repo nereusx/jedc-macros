@@ -53,9 +53,6 @@ It is only creates vertically windows. Anyway, the macros uses
 ```
 Alt+F               Search forward
 Ctrl+F              Search backward
-Ctrl+C              Copy
-Ctrl+V              Paste
-Ctrl+X              Cut
 Ctrl+Q              Cancel (ESC works too, just waits 1 sec in Unix)
 [Alt+\]]            Matching delimiters
 [Alt+/]             Completion
@@ -83,7 +80,14 @@ Ctrl+Q              Cancel (ESC works too, just waits 1 sec in Unix)
 [F12]               JED's menu
 ```
 
-X11 clipboard:
+Win/KDE clipboard keys (default on)
+```
+Ctrl+C              Copy
+Ctrl+V              Paste
+Ctrl+X              Cut
+```
+
+X11 clipboard
 ```
 Alt+Ctrl+C = Copy
 Alt+Ctrl+V = Paste
