@@ -51,7 +51,7 @@ It is only creates vertically windows. Anyway, the macros uses
 
 **Additional** to the original BRIEF keys:
 ```
-Alt+F               Search forward
+Alt+F               Search forward (Alt+S,Alt+T,F5,F6,etc,still works)
 Ctrl+F              Search backward
 Ctrl+Q              Cancel (ESC works too, just waits 1 sec in Unix)
 [Alt+\]]            Matching delimiters
