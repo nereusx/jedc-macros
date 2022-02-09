@@ -87,7 +87,7 @@ Ctrl+V              Paste
 Ctrl+X              Cut
 ```
 
-X11 clipboard
+X11 clipboard (`xclip` needed, default on)
 ```
 Alt+Ctrl+C = Copy
 Alt+Ctrl+V = Paste
