@@ -38,15 +38,10 @@ cp -r .jed ~/
 git clone https://github.com/jedc
 cd jedc
 ./configure
-make
-# make xjed
-[ ! -d /usr/share/jed ] && mkdir /usr/share/jed
-[ ! -e /usr/local/jed ] && ln -s /usr/share/jed /usr/local/jed
-[ ! -e /usr/jed ]       && ln -s /usr/share/jed /usr/jed
-make install
+make && make install
 ```
 
-### Fix macro directory
+### Fix macros directory location
 Linux distributions correctly use `/usr/share/jed` directory.
 Configuration of JED without prefix parameter, uses `/usr/local/jed`.
 Configuration of JED with `--prefix=/usr` parameter [suggested], uses `/usr/jed`.
