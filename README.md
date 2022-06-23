@@ -49,7 +49,7 @@ make install
 ### Fix macro directory
 Linux distributions correctly use `/usr/share/jed` directory.
 Configuration of JED without prefix parameter, uses `/usr/local/jed`.
-Configuration of JED with --prefix=/usr parameter, uses `/usr/jed`.
+Configuration of JED with `--prefix=/usr parameter` [suggested], uses `/usr/jed`.
 Just make all of them to show to one directory. It is better to do before `make install`.
 
 Example:
