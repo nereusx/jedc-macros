@@ -16,7 +16,7 @@ if [ -z "$BACKUPDIR" ]; then
 			echo 'setenv BACKUPDIR ${HOME}/.backup' >> ~/.$e
 		fi
 	done
-	echo "Environmet variable BACKUPDIR added"
+	echo "Environmet variable BACKUPDIR added; reload shell's rc required"
 fi
 
 if [ -z "$JED_HOME" ]; then
@@ -33,7 +33,7 @@ if [ -z "$JED_HOME" ]; then
 			echo 'setenv JED_HOME ${HOME}/.jed' >> ~/.$e
 		fi
 	done
-	echo "Environment variable JED_HOME added"
+	echo "Environment variable JED_HOME added; reload shell's rc required"
 fi
 
 echo 'Files copied to ~/.jed'
