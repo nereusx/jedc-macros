@@ -5,7 +5,7 @@ CBrief compatibility for Jed (see patched version nereusx/jedc)
 ## Require
 packages libslang/slang slsh gettext xclip
 
-### 2022 automatic installation script
+Jun 2022, automatic installation script:
 ```
 curl https://raw.githubusercontent.com/nereusx/dotfiles/master/getapps/install-ndc-jed.sh | sh
 ```
