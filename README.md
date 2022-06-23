@@ -40,7 +40,23 @@ cd jedc
 ./configure
 make
 # make xjed
+[ ! -d /usr/share/jed ] && mkdir /usr/share/jed
+[ ! -e /usr/local/jed ] && ln -s /usr/share/jed /usr/local/jed
+[ ! -e /usr/jed ]       && ln -s /usr/share/jed /usr/jed
 make install
+```
+
+### Fix macro directory
+Linux distributions correctly use `/usr/share/jed` directory.
+Configuration of JED without prefix parameter, uses `/usr/local/jed`.
+Configuration of JED with --prefix=/usr parameter, uses `/usr/jed`.
+Just make all of them to show to one directory. It is better to do before `make install`.
+
+Example:
+```
+mkdir /usr/share/jed
+ln -s /usr/share/jed /usr/jed
+ln -s /usr/share/jed /usr/local/jed
 ```
 
 ## Differences
