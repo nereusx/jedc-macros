@@ -67,7 +67,7 @@ It is only creates vertically windows. Anyway, the macros uses
 
 **Additional** to the original BRIEF keys:
 ```
-Alt+F               Search forward
+Alt+F               Search forward (Alt+S,Alt+T,F5,F6,etc,still works)
 Ctrl+F              Search backward
 Ctrl+Q              Cancel (ESC works too, just waits 1 sec in Unix)
 [Alt+\]]            Matching delimiters
@@ -103,7 +103,7 @@ Ctrl+V              Paste
 Ctrl+X              Cut
 ```
 
-X11 clipboard
+X11 clipboard (`xclip` needed, default on)
 ```
 Alt+Ctrl+C = Copy
 Alt+Ctrl+V = Paste
@@ -127,5 +127,5 @@ Ctrl+Right = End
 ## User's terminal codes fix file
 
 The `~/.jed/terminal.sl` file is used for any user to fix terminal incompatibilities.
-
+It is user's file, remove all lines and note yours, does not matter.
 
